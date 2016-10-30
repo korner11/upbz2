@@ -273,6 +273,7 @@
             this.passtxt.Name = "passtxt";
             this.passtxt.Size = new System.Drawing.Size(142, 20);
             this.passtxt.TabIndex = 19;
+            this.passtxt.TextChanged += new System.EventHandler(this.passtxt_TextChanged);
             // 
             // Form1
             // 

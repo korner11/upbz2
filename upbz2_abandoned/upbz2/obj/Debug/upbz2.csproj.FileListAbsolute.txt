@@ -1,0 +1,12 @@
+c:\users\andrej\documents\visual studio 2015\Projects\upbz2\upbz2\bin\Debug\upbz2.exe.config
+c:\users\andrej\documents\visual studio 2015\Projects\upbz2\upbz2\bin\Debug\upbz2.exe
+c:\users\andrej\documents\visual studio 2015\Projects\upbz2\upbz2\bin\Debug\upbz2.pdb
+c:\users\andrej\documents\visual studio 2015\Projects\upbz2\upbz2\obj\Debug\upbz2.csprojResolveAssemblyReference.cache
+c:\users\andrej\documents\visual studio 2015\Projects\upbz2\upbz2\obj\Debug\upbz2.Form1.resources
+c:\users\andrej\documents\visual studio 2015\Projects\upbz2\upbz2\obj\Debug\upbz2.Properties.Resources.resources
+c:\users\andrej\documents\visual studio 2015\Projects\upbz2\upbz2\obj\Debug\upbz2.csproj.GenerateResource.Cache
+c:\users\andrej\documents\visual studio 2015\Projects\upbz2\upbz2\obj\Debug\upbz2.exe
+c:\users\andrej\documents\visual studio 2015\Projects\upbz2\upbz2\obj\Debug\upbz2.pdb
+C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2\upbz2\bin\Debug\upbz2.exe.config
+C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2\upbz2\obj\Debug\upbz2.exe
+C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2\upbz2\obj\Debug\upbz2.pdb

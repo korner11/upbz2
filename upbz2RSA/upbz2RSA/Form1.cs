@@ -22,18 +22,18 @@ namespace upbz2RSA
 
         // Path variables for source, encryption, and
         // decryption folders. Must end with a backslash.
-         string EncrFolder = Directory.GetCurrentDirectory() + @"\Encrypt\";
-         string DecrFolder = Directory.GetCurrentDirectory() + @"\Decrypt\";
-         string SrcFolder = Directory.GetCurrentDirectory();
-         string fName;
-         string ext;
+        string EncrFolder = Directory.GetCurrentDirectory() + @"\Encrypt\";
+        string DecrFolder = Directory.GetCurrentDirectory() + @"\Decrypt\";
+        string SrcFolder = Directory.GetCurrentDirectory();
+        string fName;
+        string ext;
 
         // Public key file
-         string PubKeyFile = Directory.GetCurrentDirectory() + @"\Encrypt\rsaPublicKey.txt";
+        string PubKeyFile = Directory.GetCurrentDirectory() + @"\Encrypt\rsaPublicKey.txt";
         string PrivateKeyFile= Directory.GetCurrentDirectory() + @"\Decrypt\rsaPrivateKey.txt";
         // Key container name for
         // private/public key value pair.
-         string keyName = "";
+        string keyName = "";
 
         public Form1()
         {
@@ -80,25 +80,35 @@ namespace upbz2RSA
             else
             {
 
-                    if (fName != null)
+                if (fName != null)
+                {
+                    try
                     {
-                        try
-                        {
-                            FileInfo fInfo = new FileInfo(fName);
-                            // Pass the file name without the path.
-                            string name = fInfo.FullName;
-                            progressBar1.Value = 0;
-                            EncryptFile(name, ext);
+                        FileInfo fInfo = new FileInfo(fName);
+                        // Pass the file name without the path.
+                        string name = fInfo.FullName;
+                        progressBar1.Value = 0;
+                        EncryptFile(name, ext);
                             
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("SOMETHING WENT WRONG");
-                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("SOMETHING WENT WRONG");
+                    }
                 }
             }
         }
-     
+
+        public void Logger(String lines)
+        {
+            // Write the string to a file.append mode is enabled so that the log
+            // lines get appended to  test.txt than wiping content and writing the log
+
+            System.IO.StreamWriter file = new System.IO.StreamWriter(Directory.GetCurrentDirectory() + @"\log.txt", true);
+            file.WriteLine(lines);
+
+            file.Close();
+        }
 
         private void EncryptFile(string inFile, string ext)
         {
@@ -128,13 +138,23 @@ namespace upbz2RSA
             int lIV = rjndl.IV.Length;
             LenIV = BitConverter.GetBytes(lIV);
 
+            // prepare 32B dummyHash
+            byte[] dummyHash = new byte[32];
+            byte[] pad = BitConverter.GetBytes(9);
+            for (int i = 0; i < 32; i+=4)
+            {
+                pad.CopyTo(dummyHash, i);
+            }
+
             // Write the following to the FileStream
             // for the encrypted file (outFs):
             // - length of the key
             // - length of the IV
             // - ecrypted key
             // - the IV
+            // - dummyHash to check integrity
             // - the encrypted cipher content
+            // --- rewrite dummyHash with true hash of encrypted data
 
             int startFileName = inFile.LastIndexOf("\\") + 1;
             // Change the file's extension to ".enc"
@@ -142,22 +162,26 @@ namespace upbz2RSA
 
             using (FileStream outFs = new FileStream(outFile, FileMode.Create))
             {
-
                 outFs.Write(LenK, 0, 4);
                 outFs.Write(LenIV, 0, 4);
                 outFs.Write(keyEncrypted, 0, lKey);
                 outFs.Write(rjndl.IV, 0, lIV);
 
+                // write dummyHash
+                outFs.Write(dummyHash, 0, dummyHash.Length);
+
+                Logger("Enc: vata = " + outFs.Length);
+
                 // Now write the cipher text using
                 // a CryptoStream for encrypting.
-                using (CryptoStream outStreamEncrypted = new CryptoStream(outFs, transform, CryptoStreamMode.Write))
+                using (CryptoStream outStreamEncrypted = new NotClosingCryptoStream(outFs, transform, CryptoStreamMode.Write))
                 {
 
                     // By encrypting a chunk at
                     // a time, you can save memory
                     // and accommodate large files.
                     int count = 0;
-                    int offset = 0;
+                    long offset = 0;
 
                     // blockSizeBytes can be any arbitrary size.
                     int blockSizeBytes = rjndl.BlockSize / 8;
@@ -178,11 +202,49 @@ namespace upbz2RSA
                             progressBar1.Increment(1);
                         }
                         while (count > 0);
+
+                        Logger("Enc: inFs.length = " + fileLength + " dlzka cisteho suboru");
+                        Logger("Enc: offset = " + offset);
+
                         inFs.Close();
+                    } // FileStream inFs
+                    //outStreamEncrypted.FlushFinalBlock();   // som to omakal sam
+                    //outStreamEncrypted.Close();   // nope !!! dont want to rush underlying stream
+                } // CryptoStream outStreamEncrypted
+
+                Logger("Enc: outFs.Length = " + outFs.Length);
+
+                // generate initialization key for HMACSHA256 provider
+                byte[] hashKey = new byte[lIV + 4];
+                rjndl.IV.CopyTo(hashKey, 0);
+                pad.CopyTo(hashKey, (hashKey.Length - 4));
+
+                // make and reWrite hash
+                using (HMACSHA256 hmac = new HMACSHA256(hashKey))
+                {
+                    // set position in stream
+                    long dataIndex = LenK.Length + LenIV.Length + lKey + lIV + dummyHash.Length;
+                    outFs.Seek(dataIndex, SeekOrigin.Begin);
+
+                    // generate hash
+                    dummyHash = hmac.ComputeHash(outFs);
+
+                    Logger("Enc: hash = " + BitConverter.ToString(dummyHash));
+
+                    // write hash
+                    dataIndex -= dummyHash.Length;
+                    outFs.Seek(dataIndex, SeekOrigin.Begin);
+                    outFs.Write(dummyHash, 0, dummyHash.Length);
+
+                    //erase hash from memory
+                    for (int i = 0; i < 32; i += 4)
+                    {
+                        pad.CopyTo(dummyHash, i);
                     }
-                    outStreamEncrypted.FlushFinalBlock();
-                    outStreamEncrypted.Close();
                 }
+
+                Logger("Enc: outFs.Length = " + outFs.Length + " after hash rewrite");
+
                 if (progressBar1.Value == progressBar1.Maximum)
                 {
                     label1.Text = "Encryption was succesful";
@@ -210,20 +272,20 @@ namespace upbz2RSA
                 MessageBox.Show("Key not set.");
             else
             {              
-                    if (fName != null)
+                if (fName != null)
+                {
+                    try
                     {
-                        try
-                        {
-                            FileInfo fi = new FileInfo(fName);
-                            string name = fi.Name;
-                            progressBar1.Value = 0;
-                            DecryptFile(name, ext);
+                        FileInfo fi = new FileInfo(fName);
+                        string name = fi.Name;
+                        progressBar1.Value = 0;
+                        DecryptFile(name, ext);
                             
-                        }
-                        catch (Exception ex) {
-                            MessageBox.Show("SOMETHING WENT WRONG"+ ex.Message);
-                        }
                     }
+                    catch (Exception ex) {
+                        MessageBox.Show("SOMETHING WENT WRONG "+ ex.Message);
+                    }
+                }
                 
             }
         }
@@ -252,7 +314,6 @@ namespace upbz2RSA
             // file (inFs) and save the decrypted file (outFs).
             using (FileStream inFs = new FileStream(EncrFolder + inFile, FileMode.Open))
             {
-
                 inFs.Seek(0, SeekOrigin.Begin);
                 inFs.Seek(0, SeekOrigin.Begin);
                 inFs.Read(LenK, 0, 3);
@@ -262,26 +323,74 @@ namespace upbz2RSA
                 // Convert the lengths to integer values.
                 int lenK = BitConverter.ToInt32(LenK, 0);
                 int lenIV = BitConverter.ToInt32(LenIV, 0);
-
-                // Determine the start postition of
-                // the ciphter text (startC)
-                // and its length(lenC).
-                int startC = lenK + lenIV + 8;
-                int lenC = (int)inFs.Length - startC;
+                int lenHash = 32;
 
                 // Create the byte arrays for
                 // the encrypted Rijndael key,
-                // the IV, and the cipher text.
+                // the IV, and the hash.
                 byte[] KeyEncrypted = new byte[lenK];
                 byte[] IV = new byte[lenIV];
+                byte[] hashRead = new byte[lenHash];
 
-                // Extract the key and IV
+                // Extract the key, IV and hash
                 // starting from index 8
                 // after the length values.
                 inFs.Seek(8, SeekOrigin.Begin);
                 inFs.Read(KeyEncrypted, 0, lenK);
                 inFs.Seek(8 + lenK, SeekOrigin.Begin);
                 inFs.Read(IV, 0, lenIV);
+                inFs.Seek(8 + lenK + lenIV, SeekOrigin.Begin);
+                inFs.Read(hashRead, 0, lenHash);
+
+                // check hash
+                // construct key for HMACSHA provider
+                byte[] hashKey = new byte[lenIV + 4];
+                IV.CopyTo(hashKey, 0);
+                byte[] pad = BitConverter.GetBytes(9);
+                pad.CopyTo(hashKey, (hashKey.Length - 4));
+
+                // make and compare hash
+                using (HMACSHA256 hmac = new HMACSHA256(hashKey))
+                {
+                    // set position in stream
+                    long dataIndex = LenK.Length + LenIV.Length + lenK + lenIV + lenHash;
+                    inFs.Seek(dataIndex, SeekOrigin.Begin);
+
+                    Logger("Dec: vata = " + inFs.Position);
+
+                    label1.Text = "Checking file integrity, please wait...";
+
+                    // generate hash
+                    byte[] computedHash = hmac.ComputeHash(inFs);
+
+                    Logger("Dec: hash = " + BitConverter.ToString(computedHash));
+
+                    try
+                    {
+                        bool isHashOK = Enumerable.SequenceEqual(hashRead, computedHash);
+                        if (!isHashOK)
+                        {
+                            throw new Exception("Cannot guarantee file integrity.\r\n" + 
+                                                "Hash check does not match"
+                            );
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message);
+                    }
+
+                    Logger("Dec: hash OK :)");
+
+                    label1.Text = "";
+
+                    // erase hash from memory
+                    for (int i = 0; i < 32; i += 4)
+                    {
+                        pad.CopyTo(computedHash, i);
+                    }
+                }
+
                 Directory.CreateDirectory(DecrFolder);
                 // Use RSACryptoServiceProvider
                 // to decrypt the Rijndael key.
@@ -289,6 +398,12 @@ namespace upbz2RSA
 
                 // Decrypt the key.
                 ICryptoTransform transform = rjndl.CreateDecryptor(KeyDecrypted, IV);
+
+                // Determine the start postition of
+                // the ciphter text (startC)
+                // and its length(lenC).
+                int startC = LenK.Length + LenIV.Length + lenK + lenIV + lenHash;
+                int lenC = (int)inFs.Length - startC;
 
                 // Decrypt the cipher text from
                 // from the FileSteam of the encrypted
@@ -298,7 +413,7 @@ namespace upbz2RSA
                 {
 
                     int count = 0;
-                    int offset = 0;
+                    long offset = 0;
 
                     // blockSizeBytes can be any arbitrary size.
                     int blockSizeBytes = rjndl.BlockSize / 8;
@@ -312,9 +427,9 @@ namespace upbz2RSA
                     // Start at the beginning
                     // of the cipher text.
                     inFs.Seek(startC, SeekOrigin.Begin);
-                    using (CryptoStream outStreamDecrypted = new CryptoStream(outFs, transform, CryptoStreamMode.Write))
+                    using (CryptoStream outStreamDecrypted = new NotClosingCryptoStream(outFs, transform, CryptoStreamMode.Write))
                     {
-                        double fileLength = inFs.Length;
+                        double fileLength = lenC;//inFs.Length;
                         double blocks = fileLength / blockSizeBytes;
                         progressBar1.Maximum = (int)Math.Ceiling(blocks-(blockSizeBytes));
 
@@ -328,10 +443,15 @@ namespace upbz2RSA
                         }
                         while (count > 0);
 
+                        Logger("Dec: offset = " + offset);
+
                         outStreamDecrypted.FlushFinalBlock();
                         outStreamDecrypted.Close();
                     }
-                    
+
+                    Logger("Dec: outFs.Length = " + outFs.Length + " dlzka odsifrovaneho suboru");
+                    Logger("");
+
                     outFs.Close();
                 }
                 inFs.Close();
@@ -340,10 +460,7 @@ namespace upbz2RSA
                     label1.Text = "Decryption was succesful";
                 }
             }
-            
-
         }
-
 
         private void exprtPubKeyBtn_Click(object sender, EventArgs e)
         {
@@ -428,6 +545,11 @@ namespace upbz2RSA
             {
                 MessageBox.Show("Cannot import Private Key" + ex.Message);
             }
+        }
+
+        private void passtxt_TextChanged(object sender, EventArgs e)
+        {
+            keyName = passtxt.Text;
         }
     }
 }
