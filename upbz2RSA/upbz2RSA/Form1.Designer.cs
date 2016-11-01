@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.crtAsymKeyBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.EncBtn = new System.Windows.Forms.Button();
@@ -52,6 +53,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.passtxt = new System.Windows.Forms.TextBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -294,8 +296,9 @@
             this.Controls.Add(this.exprtPubKeyBtn);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.crtAsymKeyBtn);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "TurboPowerCrypt";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -333,6 +336,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox passtxt;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 
