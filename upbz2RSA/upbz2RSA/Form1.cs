@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Security.Cryptography;
@@ -75,24 +70,7 @@ namespace upbz2RSA
                  slctFileTxt.Text = fName;
             }
         }
-
-        // This event handler deals with the results of the background operation.
-        private void updateGui(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Cancelled == true)
-            {
-                label1.Text = "Canceled!";
-            }
-            else if (e.Error != null)
-            {
-                label1.Text = "Error: " + e.Error.Message;
-            }
-            else
-            {
-                label1.Text = "Done!";
-            }
-        }
-
+        
         private void EncBtn_Click(object sender, EventArgs e)
         {
             if (backgroundWorker1.IsBusy != true)
@@ -119,7 +97,6 @@ namespace upbz2RSA
                             backgroundWorker1.DoWork += (obj, dwe) => EncryptFile(name, ext);
                             backgroundWorker1.ProgressChanged += new ProgressChangedEventHandler(updateGui);
                             backgroundWorker1.RunWorkerAsync();
-                            //EncryptFile(name, ext); ////////////////////////////////////////////////
                         }
                         catch (Exception ex)
                         {
@@ -136,12 +113,23 @@ namespace upbz2RSA
 
         private void updateGui(object sender, ProgressChangedEventArgs e)
         {
-            // when we are changing label only
-            if(e.ProgressPercentage != 0)
+            // ProgressPercentage == 1 indicates:
+            // increment progressBar1 value
+            if (e.ProgressPercentage == 1)
                 progressBar1.Increment(1);
-
-            if(e.UserState != null)
-                label1.Text = (string)e.UserState;
+            // ProgressPercentage == 0 indicates:
+            // we set only label
+            else if (e.ProgressPercentage == 0)
+            {
+                // set label
+                if (e.UserState != null)
+                    label1.Text = (string)e.UserState;
+            }
+            // ProgressPercentage == 100 indicates:
+            // render 100% full progress bar
+            // relevant only because of very small files 
+            else if (e.ProgressPercentage == 100)
+                progressBar1.Value = progressBar1.Maximum;
         }
 
         public void Logger(String lines)
@@ -167,6 +155,7 @@ namespace upbz2RSA
         private void EncryptFile(string inFile, string ext)
         {
             start = DateTime.Now;
+            Logger("Enc: Started on " + start.ToString("dd.MM.yyyy at HH:mm:ss"));
 
             int startFileName = inFile.LastIndexOf("\\") + 1;
             string shortFileName = inFile.Substring(startFileName, inFile.LastIndexOf(".") - startFileName) + ext;
@@ -203,10 +192,6 @@ namespace upbz2RSA
             // prepare 32B dummyHash
             byte[] dummyHash = new byte[32];
             byte[] pad = BitConverter.GetBytes(9);
-            for (int i = 0; i < 32; i+=4)
-            {
-                pad.CopyTo(dummyHash, i);
-            }
 
             // Write the following to the FileStream
             // for the encrypted file (outFs):
@@ -248,8 +233,9 @@ namespace upbz2RSA
                     {
                         double fileLength = inFs.Length;
                         double blocks = fileLength / blockSizeBytes;
-                        //progressBar1.Maximum = 128;
                         int step = (int)Math.Ceiling(blocks) / 128;
+                        if (step < 1)
+                            step = 1;
                         int iteration = 1;
                         do
                         {
@@ -260,16 +246,15 @@ namespace upbz2RSA
 
                             if (iteration++ % step == 0)
                                 backgroundWorker1.ReportProgress(1);    //increment progressBar and NOT change label1
-                                //progressBar1.Increment(1);
                         }
                         while (count > 0);
+
+                        backgroundWorker1.ReportProgress(100);  //set 100% full progress bar due to very small files
 
                         Logger("Enc: Original file length = " + fileLength);   //dlzka cisteho suboru
 
                         inFs.Close();
                     } // FileStream inFs
-                    //outStreamEncrypted.FlushFinalBlock();     // som to omakal inde
-                    //outStreamEncrypted.Close();               // nope !!! dont want to rush underlying stream
                 } // CryptoStream outStreamEncrypted
 
                 Logger("Enc: Encrypted file length = " + outFs.Length + " before hash rewrite");
@@ -304,7 +289,7 @@ namespace upbz2RSA
                     {
                         pad.CopyTo(dummyHash, i);
                     }
-                }
+                }//HMACSHA256
 
                 Logger("Enc: Encrypted file length = " + outFs.Length + " after hash rewrite");
 
@@ -312,10 +297,11 @@ namespace upbz2RSA
                 backgroundWorker1.ReportProgress(0, labelText);
 
                 outFs.Close();
-                Logger(labelText);
+                Logger("Enc: Encryption was succesful");
 
                 finish = DateTime.Now;
                 TimeSpan duration = finish.Subtract(start);
+                Logger("Enc: Finished on " + finish.ToString("dd.MM.yyyy at HH:mm:ss"));
                 Logger("File \"" + inFile + "\"\r\n     encrypted in " +
                         duration.Days + " days, " +
                         duration.Hours + ":" +
@@ -323,8 +309,7 @@ namespace upbz2RSA
                         "." + duration.Milliseconds +
                         "\r\n=================================================="
                 );
-            }
-           
+            }//outFs
         }
 
         private void slcFileDbtn_Click(object sender, EventArgs e)
@@ -345,6 +330,8 @@ namespace upbz2RSA
             {
                 if (rsa == null)
                     MessageBox.Show("Key not set.");
+                else if (rsa.PublicOnly)
+                    MessageBox.Show("Only public key was set\r\nYou need right private key to decrypt file");
                 else
                 {
                     if (fName != null)
@@ -352,7 +339,7 @@ namespace upbz2RSA
                         try
                         {
                             FileInfo fi = new FileInfo(fName);
-                            string name = fi.Name;
+                            string name = fi.FullName;
                             progressBar1.Value = 0;
                             progressBar1.Maximum = 128;
 
@@ -363,11 +350,10 @@ namespace upbz2RSA
                             backgroundWorker1.DoWork += (obj, dwe) => DecryptFile(name, ext);
                             backgroundWorker1.ProgressChanged += new ProgressChangedEventHandler(updateGui);
                             backgroundWorker1.RunWorkerAsync();
-                            //DecryptFile(name, ext);   /////////////////////////////////////////////////
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("SOMETHING WENT WRONG " + ex.Message);
+                            MessageBox.Show("SOMETHING WENT WRONG\r\n(BackgroundWorker / DecryptFile)");
                         }
                     }
 
@@ -381,8 +367,11 @@ namespace upbz2RSA
         private void DecryptFile(string inFile, string ext)
         {
             start = DateTime.Now;
-            
-            string shortFileName = inFile.Substring(0, inFile.LastIndexOf(".")) + ext;
+            Logger("Dec: Started on " + start.ToString("dd.MM.yyyy at HH:mm:ss"));
+
+            int startFileName = inFile.LastIndexOf("\\") + 1;
+            string shortFileName = inFile.Substring(startFileName, inFile.LastIndexOf(".") - startFileName) + ext;
+            //string shortFileName = inFile.Substring(0, inFile.LastIndexOf(".")) + ext;
             string labelText = "Decrypting file \"" + shortFileName + "\"";
 
             // Create instance of Rijndael for
@@ -400,11 +389,11 @@ namespace upbz2RSA
             byte[] LenIV = new byte[4];
 
             // Consruct the file name for the decrypted file.
-            string outFile = DecrFolder + inFile.Substring(0, inFile.LastIndexOf(".")-1) + ext;
+            string outFile = DecrFolder + shortFileName.Substring(0, shortFileName.LastIndexOf(".")-1) + ext;
 
             // Use FileStream objects to read the encrypted
             // file (inFs) and save the decrypted file (outFs).
-            using (FileStream inFs = new FileStream(EncrFolder + inFile, FileMode.Open))
+            using (FileStream inFs = new FileStream(inFile/*EncrFolder + shortFileName*/, FileMode.Open))
             {
                 inFs.Seek(0, SeekOrigin.Begin);
                 inFs.Seek(0, SeekOrigin.Begin);
@@ -463,8 +452,11 @@ namespace upbz2RSA
                         bool isHashOK = Enumerable.SequenceEqual(hashRead, computedHash);
                         if (!isHashOK)
                         {
+                            labelText = "Cannot decrypt file. Integrity check ended up with false";
+                            backgroundWorker1.ReportProgress(0, labelText);
+                            Logger("Dec: hashes does not match");
                             throw new Exception("Cannot guarantee file integrity.\r\n" + 
-                                                "Hash check does not match"
+                                                "Integrity check ended up with false"
                             );
                         }
                     }
@@ -500,14 +492,11 @@ namespace upbz2RSA
                 // for the decrypted file (outFs).
                 using (FileStream outFs = new FileStream(outFile, FileMode.Create))
                 {
-
                     int count = 0;
-                    //long offset = 0;    // pointless
 
                     // blockSizeBytes can be any arbitrary size.
                     int blockSizeBytes = rjndl.BlockSize / 8;
                     byte[] data = new byte[blockSizeBytes];
-
 
                     // By decrypting a chunk a time,
                     // you can save memory and
@@ -520,15 +509,14 @@ namespace upbz2RSA
                     {
                         double fileLength = lenC;//inFs.Length;
                         double blocks = fileLength / blockSizeBytes;
-                        //progressBar1.Maximum = (int)Math.Ceiling(blocks-(blockSizeBytes));
                         int step = (int)Math.Ceiling(blocks) / 128;
+                        if (step < 1)
+                            step = 1;
                         int iteration = 1;
 
                         do
                         {
                             count = inFs.Read(data, 0, blockSizeBytes);
-                            //offset += count;      // pointless
-                            //progressBar1.Increment(1);
                             outStreamDecrypted.Write(data, 0, count);
 
                             if (iteration++ % step == 0)
@@ -536,19 +524,15 @@ namespace upbz2RSA
                         }
                         while (count > 0);
 
-                        //outStreamDecrypted.FlushFinalBlock(); // nope
-                        //outStreamDecrypted.Close();           // nope
-                    }
+                        backgroundWorker1.ReportProgress(100);  //set 100% full progress bar due to very small files
+                    }//CryptoStream
 
-                    Logger("Dec: Decrypteed file length = " + outFs.Length);  //dlzka odsifrovaneho suboru
+                    Logger("Dec: Decrypteed file length = " + outFs.Length);
 
                     outFs.Close();
-                }
+                }//outFs
                 inFs.Close();
-                //if (progressBar1.Value == (progressBar1.Maximum))
-                //{
-                //    label1.Text = "Decryption of \"" + shortFileName + "\" was succesful";
-                //}
+
                 labelText = "Decryption of \"" + shortFileName + "\" was succesful";
                 backgroundWorker1.ReportProgress(0, labelText);
 
@@ -556,6 +540,7 @@ namespace upbz2RSA
                 finish = DateTime.Now;
 
                 TimeSpan duration = finish.Subtract(start);
+                Logger("Dec: Finished on " + finish.ToString("dd.MM.yyyy at HH:mm:ss"));
                 Logger("File \"" + inFile + "\"\r\n     decrypted in " +
                         duration.Days + " days, " +
                         duration.Hours + ":" +
@@ -572,10 +557,24 @@ namespace upbz2RSA
             // to a file. Caution, persisting the
             // key to a file is a security risk.
             Directory.CreateDirectory(EncrFolder);
-            StreamWriter sw = new StreamWriter(PubKeyFile, false);
-            sw.Write(rsa.ToXmlString(false));
-            sw.Close();
-            label1.Text = "Public key was succesfully exported to file";
+            try
+            {
+                StreamWriter sw = new StreamWriter(PubKeyFile, false);
+                try {
+                    sw.Write(rsa.ToXmlString(false));
+                    sw.Close();
+                    label1.Text = "Public key was succesfully exported to file";
+                }
+                catch(Exception exc) {
+                    sw.Close();
+                    File.Delete(PubKeyFile);
+                    MessageBox.Show("Cannot export Public key\r\nGenerate or import key first");
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Unable to create file\r\n" + PubKeyFile);
+            }
         }
 
         private void ImprtPubKey_Click(object sender, EventArgs e)
@@ -595,27 +594,11 @@ namespace upbz2RSA
                 sr.Close();
             }
             catch (Exception ex) {
-                MessageBox.Show("Cannot import Public Key");
+                MessageBox.Show("Cannot import Public Key\r\n" + ex.Message);
             }
         }
 
-        /*private void getPrvtKeyBtn_Click(object sender, EventArgs e)
-        {
-            /*  cspp.KeyContainerName = keyName;
-
-              rsa = new RSACryptoServiceProvider(cspp);
-              rsa.PersistKeyInCsp = true;
-
-              if (rsa.PublicOnly == true)
-                  label1.Text = "Key: " + cspp.KeyContainerName + " - Container contains only public key";
-              else
-                  label1.Text = "Key: " + cspp.KeyContainerName + " - Container contains Full Key Pair";
-        }*/
-
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void tabPage1_Click(object sender, EventArgs e) { }
 
         private void exprtPrivKey_Click(object sender, EventArgs e)
         {
@@ -623,10 +606,26 @@ namespace upbz2RSA
             // to a file. Caution, persisting the
             // key to a file is a security risk.
             Directory.CreateDirectory(DecrFolder);
-            StreamWriter sw = new StreamWriter(PrivateKeyFile, false);
-            sw.Write(rsa.ToXmlString(true));
-            sw.Close();
-            label1.Text = "Private key was succesfully exported to file";
+            try
+            {
+                StreamWriter sw = new StreamWriter(PrivateKeyFile, false);
+                try
+                {
+                    sw.Write(rsa.ToXmlString(true));
+                    sw.Close();
+                    label1.Text = "Private key was succesfully exported to file";
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show("Cannot export Private key\r\nGenerate or import key first");
+                    sw.Close();
+                    File.Delete(PrivateKeyFile);
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Unable to create file\r\n" + PrivateKeyFile);
+            }
         }
 
         private void imprPrivKeyBtn_Click(object sender, EventArgs e)
@@ -647,13 +646,23 @@ namespace upbz2RSA
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Cannot import Private Key" + ex.Message);
+                MessageBox.Show("Cannot import Private Key\r\n" + ex.Message);
             }
         }
 
         private void passtxt_TextChanged(object sender, EventArgs e)
         {
             keyName = passtxt.Text;
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void slctFileTxt_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

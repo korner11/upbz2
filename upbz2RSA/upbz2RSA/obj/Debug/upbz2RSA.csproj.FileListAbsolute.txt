@@ -8,11 +8,10 @@ c:\users\andrej\documents\visual studio 2015\Projects\upbz2RSA\upbz2RSA\obj\Debu
 c:\users\andrej\documents\visual studio 2015\Projects\upbz2RSA\upbz2RSA\obj\Debug\upbz2RSA.exe
 c:\users\andrej\documents\visual studio 2015\Projects\upbz2RSA\upbz2RSA\obj\Debug\upbz2RSA.pdb
 C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Debug\upbz2RSA.exe.config
-C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\obj\Debug\upbz2RSA.exe
-C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\obj\Debug\upbz2RSA.pdb
 C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Debug\upbz2RSA.exe
 C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Debug\upbz2RSA.pdb
-C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\obj\Debug\upbz2RSA.csprojResolveAssemblyReference.cache
 C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\obj\Debug\upbz2RSA.Form1.resources
 C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\obj\Debug\upbz2RSA.Properties.Resources.resources
 C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\obj\Debug\upbz2RSA.csproj.GenerateResource.Cache
+C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\obj\Debug\upbz2RSA.exe
+C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\obj\Debug\upbz2RSA.pdb

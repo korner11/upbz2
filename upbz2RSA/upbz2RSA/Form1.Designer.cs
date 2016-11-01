@@ -46,12 +46,10 @@
             this.slcFileDbtn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.exprtPrivKey = new System.Windows.Forms.Button();
             this.imprPrivKeyBtn = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.passtxt = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
@@ -79,7 +77,7 @@
             // 
             // EncBtn
             // 
-            this.EncBtn.Location = new System.Drawing.Point(6, 53);
+            this.EncBtn.Location = new System.Drawing.Point(15, 66);
             this.EncBtn.Name = "EncBtn";
             this.EncBtn.Size = new System.Drawing.Size(75, 23);
             this.EncBtn.TabIndex = 2;
@@ -89,7 +87,7 @@
             // 
             // SlctFileBtn
             // 
-            this.SlctFileBtn.Location = new System.Drawing.Point(324, 27);
+            this.SlctFileBtn.Location = new System.Drawing.Point(337, 31);
             this.SlctFileBtn.Name = "SlctFileBtn";
             this.SlctFileBtn.Size = new System.Drawing.Size(75, 23);
             this.SlctFileBtn.TabIndex = 3;
@@ -99,10 +97,14 @@
             // 
             // slctFileTxt
             // 
-            this.slctFileTxt.Location = new System.Drawing.Point(6, 27);
+            this.slctFileTxt.ForeColor = System.Drawing.SystemColors.Window;
+            this.slctFileTxt.Location = new System.Drawing.Point(19, 31);
             this.slctFileTxt.Name = "slctFileTxt";
+            this.slctFileTxt.ReadOnly = true;
+            this.slctFileTxt.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.slctFileTxt.Size = new System.Drawing.Size(301, 20);
             this.slctFileTxt.TabIndex = 4;
+            this.slctFileTxt.TextChanged += new System.EventHandler(this.slctFileTxt_TextChanged);
             // 
             // openFileDialog1
             // 
@@ -124,7 +126,7 @@
             // 
             // exprtPubKeyBtn
             // 
-            this.exprtPubKeyBtn.Location = new System.Drawing.Point(27, 41);
+            this.exprtPubKeyBtn.Location = new System.Drawing.Point(179, 52);
             this.exprtPubKeyBtn.Name = "exprtPubKeyBtn";
             this.exprtPubKeyBtn.Size = new System.Drawing.Size(113, 23);
             this.exprtPubKeyBtn.TabIndex = 6;
@@ -134,7 +136,7 @@
             // 
             // ImprtPubKey
             // 
-            this.ImprtPubKey.Location = new System.Drawing.Point(26, 99);
+            this.ImprtPubKey.Location = new System.Drawing.Point(31, 52);
             this.ImprtPubKey.Name = "ImprtPubKey";
             this.ImprtPubKey.Size = new System.Drawing.Size(113, 23);
             this.ImprtPubKey.TabIndex = 7;
@@ -146,11 +148,12 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(27, 132);
+            this.tabControl1.Location = new System.Drawing.Point(27, 118);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(468, 148);
             this.tabControl1.TabIndex = 9;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -181,14 +184,16 @@
             // 
             // stcFileDtxt
             // 
-            this.stcFileDtxt.Location = new System.Drawing.Point(15, 35);
+            this.stcFileDtxt.Location = new System.Drawing.Point(19, 31);
             this.stcFileDtxt.Name = "stcFileDtxt";
-            this.stcFileDtxt.Size = new System.Drawing.Size(318, 20);
+            this.stcFileDtxt.ReadOnly = true;
+            this.stcFileDtxt.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.stcFileDtxt.Size = new System.Drawing.Size(301, 20);
             this.stcFileDtxt.TabIndex = 7;
             // 
             // slcFileDbtn
             // 
-            this.slcFileDbtn.Location = new System.Drawing.Point(339, 35);
+            this.slcFileDbtn.Location = new System.Drawing.Point(337, 31);
             this.slcFileDbtn.Name = "slcFileDbtn";
             this.slcFileDbtn.Size = new System.Drawing.Size(75, 23);
             this.slcFileDbtn.TabIndex = 6;
@@ -201,27 +206,18 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(298, 15);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(171, 13);
+            this.label2.Size = new System.Drawing.Size(196, 13);
             this.label2.TabIndex = 10;
-            this.label2.Text = "It will create a pair of asymetric key";
+            this.label2.Text = "Create a pair of asymetric key in memory";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(146, 46);
+            this.label3.Location = new System.Drawing.Point(309, 57);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(149, 13);
+            this.label3.Size = new System.Drawing.Size(157, 13);
             this.label3.TabIndex = 11;
-            this.label3.Text = "It will export public key into file";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(145, 104);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(143, 13);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "It will load public key from file";
+            this.label3.Text = "file \".\\Encrypt\\rsaPublicKey.txt\"";
             // 
             // progressBar1
             // 
@@ -233,9 +229,9 @@
             // 
             // exprtPrivKey
             // 
-            this.exprtPrivKey.Location = new System.Drawing.Point(301, 41);
+            this.exprtPrivKey.Location = new System.Drawing.Point(179, 81);
             this.exprtPrivKey.Name = "exprtPrivKey";
-            this.exprtPrivKey.Size = new System.Drawing.Size(102, 23);
+            this.exprtPrivKey.Size = new System.Drawing.Size(113, 23);
             this.exprtPrivKey.TabIndex = 15;
             this.exprtPrivKey.Text = "Export Private Key";
             this.exprtPrivKey.UseVisualStyleBackColor = true;
@@ -243,9 +239,9 @@
             // 
             // imprPrivKeyBtn
             // 
-            this.imprPrivKeyBtn.Location = new System.Drawing.Point(301, 99);
+            this.imprPrivKeyBtn.Location = new System.Drawing.Point(31, 81);
             this.imprPrivKeyBtn.Name = "imprPrivKeyBtn";
-            this.imprPrivKeyBtn.Size = new System.Drawing.Size(102, 23);
+            this.imprPrivKeyBtn.Size = new System.Drawing.Size(113, 23);
             this.imprPrivKeyBtn.TabIndex = 16;
             this.imprPrivKeyBtn.Text = "Import Private Key";
             this.imprPrivKeyBtn.UseVisualStyleBackColor = true;
@@ -254,20 +250,11 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(410, 46);
+            this.label6.Location = new System.Drawing.Point(309, 86);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(117, 13);
+            this.label6.Size = new System.Drawing.Size(162, 13);
             this.label6.TabIndex = 17;
-            this.label6.Text = "It will export private key";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(409, 104);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(116, 13);
-            this.label7.TabIndex = 18;
-            this.label7.Text = "It will import private key";
+            this.label6.Text = "file \".\\Decrypt\\rsaPrivateKey.txt\"";
             // 
             // passtxt
             // 
@@ -281,14 +268,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 430);
+            this.ClientSize = new System.Drawing.Size(528, 403);
             this.Controls.Add(this.passtxt);
-            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.imprPrivKeyBtn);
             this.Controls.Add(this.exprtPrivKey);
             this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tabControl1);
@@ -329,12 +314,10 @@
         private System.Windows.Forms.Button slcFileDbtn;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Button exprtPrivKey;
         private System.Windows.Forms.Button imprPrivKeyBtn;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox passtxt;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }

@@ -266,3 +266,160 @@ Dec: Decryption was succesful
 File "jednoGigoC.dat"
      decrypted in 0 days, 0:1:23.699
 ==================================================
+Enc: Original file length = 2300
+Enc: Encrypted file length = 2504 before hash rewrite
+Enc: hash = 54-F0-16-9C-8B-E9-B6-FE-70-64-15-F2-D2-BB-15-07-FE-E6-79-74-C1-7D-DC-C1-4C-15-5F-60-F2-57-84-AD
+Enc: Encrypted file length = 2504 after hash rewrite
+Encryption was succesful
+File "C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Debug\func.net"
+     encrypted in 0 days, 0:0:0.9
+==================================================
+Dec: hash declared = 54-F0-16-9C-8B-E9-B6-FE-70-64-15-F2-D2-BB-15-07-FE-E6-79-74-C1-7D-DC-C1-4C-15-5F-60-F2-57-84-AD
+Dec: hash computed = 54-F0-16-9C-8B-E9-B6-FE-70-64-15-F2-D2-BB-15-07-FE-E6-79-74-C1-7D-DC-C1-4C-15-5F-60-F2-57-84-AD
+Dec: hash OK
+Enc: Original file length = 189
+Enc: Encrypted file length = 392 before hash rewrite
+Enc: hash = 3B-0F-70-B3-63-49-54-D7-A4-06-19-6A-72-A2-58-01-F9-C6-78-AC-7B-BE-CB-84-4B-4C-FB-67-D2-CE-61-D5
+Enc: Encrypted file length = 392 after hash rewrite
+Encryption was succesful
+File "C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Debug\upbz2RSA.exe.config"
+     encrypted in 0 days, 0:0:0.9
+==================================================
+Dec: hash declared = 3B-0F-70-B3-63-49-54-D7-A4-06-19-6A-72-A2-58-01-F9-C6-78-AC-7B-BE-CB-84-4B-4C-FB-67-D2-CE-61-D5
+Dec: hash computed = 3B-0F-70-B3-63-49-54-D7-A4-06-19-6A-72-A2-58-01-F9-C6-78-AC-7B-BE-CB-84-4B-4C-FB-67-D2-CE-61-D5
+Dec: hash OK
+Dec: Decrypteed file length = 189
+Dec: Decryption was succesful
+File "upbz2RSA.exeC.config"
+     decrypted in 0 days, 0:0:0.6
+==================================================
+Enc: Original file length = 1777592
+Enc: Encrypted file length = 1777800 before hash rewrite
+Enc: hash = 2F-04-BC-7B-FF-95-BD-16-59-2F-B3-1D-0B-3D-00-F2-99-F7-27-58-62-4A-28-93-BB-35-6E-9B-38-51-1D-74
+Enc: Encrypted file length = 1777800 after hash rewrite
+Encryption was succesful
+File "C:\Users\JD\Music\01---Král-a-klaun.mp3"
+     encrypted in 0 days, 0:0:0.124
+==================================================
+Dec: hash declared = 2F-04-BC-7B-FF-95-BD-16-59-2F-B3-1D-0B-3D-00-F2-99-F7-27-58-62-4A-28-93-BB-35-6E-9B-38-51-1D-74
+Dec: hash computed = 2F-04-BC-7B-FF-95-BD-16-59-2F-B3-1D-0B-3D-00-F2-99-F7-27-58-62-4A-28-93-BB-35-6E-9B-38-51-1D-74
+Dec: hash OK
+Dec: Decrypteed file length = 1777592
+Dec: Decryption was succesful
+File "01---Král-a-klaunC.mp3"
+     decrypted in 0 days, 0:0:0.137
+==================================================
+Enc: Original file length = 5419675
+Enc: Encrypted file length = 5419880 before hash rewrite
+Enc: hash = F3-FC-60-5D-CC-99-4F-96-28-8E-05-9E-CC-03-A0-04-4E-F7-23-51-83-1B-41-BF-AE-FF-B5-6F-2C-C5-E9-6A
+Enc: Encrypted file length = 5419880 after hash rewrite
+Encryption was succesful
+File "C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Debug\calm-before-the-storm.mp3"
+     encrypted in 0 days, 0:0:0.348
+==================================================
+Dec: hash declared = F3-FC-60-5D-CC-99-4F-96-28-8E-05-9E-CC-03-A0-04-4E-F7-23-51-83-1B-41-BF-AE-FF-B5-6F-2C-C5-E9-6A
+Dec: hash computed = F3-FC-60-5D-CC-99-4F-96-28-8E-05-9E-CC-03-A0-04-4E-F7-23-51-83-1B-41-BF-AE-FF-B5-6F-2C-C5-E9-6A
+Dec: hash OK
+Dec: Decrypteed file length = 5419675
+Dec: Decryption was succesful
+File "calm-before-the-stormC.mp3"
+     decrypted in 0 days, 0:0:0.402
+==================================================
+Enc: Original file length = 5419675
+Enc: Encrypted file length = 5419880 before hash rewrite
+Enc: hash = 01-93-CD-9A-45-26-A6-55-F2-F4-70-DB-0A-D8-1A-27-37-26-E0-AE-16-03-46-13-51-B6-01-CD-E2-CC-D8-49
+Enc: Encrypted file length = 5419880 after hash rewrite
+Encryption was succesful
+File "C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Debug\calm-before-the-storm.mp3"
+     encrypted in 0 days, 0:0:0.312
+==================================================
+Dec: hash declared = 01-93-CD-9A-45-26-A6-55-F2-F4-70-DB-0A-D8-1A-27-37-26-E0-AE-16-03-46-13-51-B6-01-CD-E2-CC-D8-49
+Dec: hash computed = 01-93-CD-9A-45-26-A6-55-F2-F4-70-DB-0A-D8-1A-27-37-26-E0-AE-16-03-46-13-51-B6-01-CD-E2-CC-D8-49
+Dec: hash OK
+Dec: Decrypteed file length = 5419675
+Dec: Decryption was succesful
+File "calm-before-the-stormC.mp3"
+     decrypted in 0 days, 0:0:0.365
+==================================================
+Enc: Original file length = 5419675
+Enc: Encrypted file length = 5419880 before hash rewrite
+Enc: hash = C5-C4-61-92-6E-D9-9D-7E-99-9B-1A-10-4F-11-AA-A8-96-46-B6-43-12-24-67-9B-0F-27-35-E4-E1-73-0A-F0
+Enc: Encrypted file length = 5419880 after hash rewrite
+Encryption was succesful
+File "C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Debug\calm-before-the-storm.mp3"
+     encrypted in 0 days, 0:0:0.332
+==================================================
+Dec: hash declared = C5-C4-61-92-6E-D9-9D-7E-99-9B-1A-10-4F-11-AA-A8-96-46-B6-43-12-24-67-9B-0F-27-35-E4-E1-73-0A-F0
+Dec: hash computed = C5-C4-61-92-6E-D9-9D-7E-99-9B-1A-10-4F-11-AA-A8-96-46-B6-43-12-24-67-9B-0F-27-35-E4-E1-73-0A-F0
+Dec: hash OK
+Dec: Decrypteed file length = 5419675
+Dec: Decryption was succesful
+File "calm-before-the-stormC.mp3"
+     decrypted in 0 days, 0:0:0.353
+==================================================
+Enc: Original file length = 2300
+Enc: Encrypted file length = 2504 before hash rewrite
+Enc: hash = 24-21-67-0B-3C-D9-D5-3E-20-F4-26-13-DD-8E-97-55-DA-CC-A5-73-D1-9B-BA-18-E0-52-E0-0F-E0-F2-6C-D5
+Enc: Encrypted file length = 2504 after hash rewrite
+Encryption was succesful
+File "C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Debug\func.net"
+     encrypted in 0 days, 0:0:0.91
+==================================================
+Dec: hash declared = 24-21-67-0B-3C-D9-D5-3E-20-F4-26-13-DD-8E-97-55-DA-CC-A5-73-D1-9B-BA-18-E0-52-E0-0F-E0-F2-6C-D5
+Dec: hash computed = 24-21-67-0B-3C-D9-D5-3E-20-F4-26-13-DD-8E-97-55-DA-CC-A5-73-D1-9B-BA-18-E0-52-E0-0F-E0-F2-6C-D5
+Dec: hash OK
+Dec: Decrypteed file length = 2300
+Dec: Decryption was succesful
+File "funcC.net"
+     decrypted in 0 days, 0:0:0.73
+==================================================
+Enc: Original file length = 5419675
+Enc: Encrypted file length = 5419880 before hash rewrite
+Enc: hash = F6-B4-A4-17-D1-3D-88-4E-AE-2C-3B-69-FD-96-65-DF-0A-BF-04-FA-02-0E-F4-B6-A8-28-20-D1-D1-FF-2C-40
+Enc: Encrypted file length = 5419880 after hash rewrite
+Encryption was succesful
+File "C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Debug\calm-before-the-storm.mp3"
+     encrypted in 0 days, 0:0:0.375
+==================================================
+Dec: hash declared = F6-B4-A4-17-D1-3D-88-4E-AE-2C-3B-69-FD-96-65-DF-0A-BF-04-FA-02-0E-F4-B6-A8-28-20-D1-D1-FF-2C-40
+Dec: hash computed = F6-B4-A4-17-D1-3D-88-4E-AE-2C-3B-69-FD-96-65-DF-0A-BF-04-FA-02-0E-F4-B6-A8-28-20-D1-D1-FF-2C-40
+Dec: hash OK
+Dec: hash declared = F6-B4-A4-17-D1-3D-88-4E-AE-2C-3B-69-FD-96-65-DF-0A-BF-04-FA-02-0E-F4-B6-A8-28-20-D1-D1-FF-2C-40
+Dec: hash computed = F6-B4-A4-17-D1-3D-88-4E-AE-2C-3B-69-FD-96-65-DF-0A-BF-04-FA-02-0E-F4-B6-A8-28-20-D1-D1-FF-2C-40
+Dec: hash OK
+Dec: Decrypteed file length = 5419675
+Dec: Decryption was succesful
+File "calm-before-the-stormC.mp3"
+     decrypted in 0 days, 0:0:0.375
+==================================================
+Dec: hash declared = 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00
+Dec: hash computed = 51-51-7D-C8-50-37-A9-AC-2A-1B-D6-9A-92-79-78-29-2C-46-A7-F7-2D-C6-72-43-D7-01-C5-F0-C0-E8-3A-45
+Enc: Started at 01.11.2016 20:32:54
+Enc: Original file length = 5419675
+Enc: Encrypted file length = 5419880 before hash rewrite
+Enc: hash = 3D-F1-88-5E-9A-34-26-33-A3-E9-9C-A7-C6-13-C7-2E-FA-D2-33-04-22-CF-ED-98-00-2A-FB-82-C6-42-62-2A
+Enc: Encrypted file length = 5419880 after hash rewrite
+Enc: Encryption was succesful
+Enc: Finished at 01.11.2016 20:32:54
+File "C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Debug\calm-before-the-storm.mp3"
+     encrypted in 0 days, 0:0:0.388
+==================================================
+Enc: Started on 01.11.2016 ao 20:36:55
+Enc: Original file length = 962560
+Enc: Encrypted file length = 962792 before hash rewrite
+Enc: hash = DF-AB-78-6C-CF-C0-B8-EC-B0-3A-C3-DB-01-A5-4F-9A-98-41-F3-94-11-54-E8-97-66-CE-06-0D-65-89-53-C2
+Enc: Encrypted file length = 962792 after hash rewrite
+Enc: Encryption was succesful
+Enc: Finished on 01.11.2016 ao 20:36:55
+File "C:\Users\JD\Documents\2016-10-31 17.40.44.jpg"
+     encrypted in 0 days, 0:0:0.117
+==================================================
+Dec: Started on 01.11.2016 ao 20:37:08
+Dec: Started on 01.11.2016 ao 20:40:06
+Dec: hash declared = 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00
+Dec: hash computed = 02-7C-58-30-18-F1-24-2B-8B-5B-88-F2-5D-95-A2-04-C6-A8-74-C8-FA-62-69-F3-A6-44-72-89-95-3D-35-75
+Dec: hashes does not match
+Dec: Started on 01.11.2016 ao 20:40:45
+Dec: hash declared = 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00
+Dec: hash computed = 02-7C-58-30-18-F1-24-2B-8B-5B-88-F2-5D-95-A2-04-C6-A8-74-C8-FA-62-69-F3-A6-44-72-89-95-3D-35-75
+Dec: hashes does not match
