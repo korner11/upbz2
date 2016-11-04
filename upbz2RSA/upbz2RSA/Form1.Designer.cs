@@ -31,11 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.crtAsymKeyBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.EncBtn = new System.Windows.Forms.Button();
             this.SlctFileBtn = new System.Windows.Forms.Button();
             this.slctFileTxt = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.dcrtBtn = new System.Windows.Forms.Button();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.exprtPubKeyBtn = new System.Windows.Forms.Button();
             this.ImprtPubKey = new System.Windows.Forms.Button();
@@ -44,7 +42,6 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.stcFileDtxt = new System.Windows.Forms.TextBox();
             this.slcFileDbtn = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.exprtPrivKey = new System.Windows.Forms.Button();
@@ -52,6 +49,9 @@
             this.label6 = new System.Windows.Forms.Label();
             this.passtxt = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.EncBtn = new System.Windows.Forms.Button();
+            this.dcrtBtn = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -59,11 +59,11 @@
             // 
             // crtAsymKeyBtn
             // 
-            this.crtAsymKeyBtn.Location = new System.Drawing.Point(179, 10);
+            this.crtAsymKeyBtn.Location = new System.Drawing.Point(285, 10);
             this.crtAsymKeyBtn.Name = "crtAsymKeyBtn";
-            this.crtAsymKeyBtn.Size = new System.Drawing.Size(113, 23);
+            this.crtAsymKeyBtn.Size = new System.Drawing.Size(145, 23);
             this.crtAsymKeyBtn.TabIndex = 0;
-            this.crtAsymKeyBtn.Text = "Create asymetric key";
+            this.crtAsymKeyBtn.Text = "Create asymmetric key pair";
             this.crtAsymKeyBtn.UseVisualStyleBackColor = true;
             this.crtAsymKeyBtn.Click += new System.EventHandler(this.crtAsymKeyBtn_Click);
             // 
@@ -74,16 +74,6 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(0, 13);
             this.label1.TabIndex = 1;
-            // 
-            // EncBtn
-            // 
-            this.EncBtn.Location = new System.Drawing.Point(15, 66);
-            this.EncBtn.Name = "EncBtn";
-            this.EncBtn.Size = new System.Drawing.Size(75, 23);
-            this.EncBtn.TabIndex = 2;
-            this.EncBtn.Text = "Encrypt";
-            this.EncBtn.UseVisualStyleBackColor = true;
-            this.EncBtn.Click += new System.EventHandler(this.EncBtn_Click);
             // 
             // SlctFileBtn
             // 
@@ -110,16 +100,6 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // dcrtBtn
-            // 
-            this.dcrtBtn.Location = new System.Drawing.Point(15, 66);
-            this.dcrtBtn.Name = "dcrtBtn";
-            this.dcrtBtn.Size = new System.Drawing.Size(75, 23);
-            this.dcrtBtn.TabIndex = 5;
-            this.dcrtBtn.Text = "Decrypt";
-            this.dcrtBtn.UseVisualStyleBackColor = true;
-            this.dcrtBtn.Click += new System.EventHandler(this.dcrtBtn_Click);
-            // 
             // openFileDialog2
             // 
             this.openFileDialog2.FileName = "openFileDialog2";
@@ -128,7 +108,7 @@
             // 
             this.exprtPubKeyBtn.Location = new System.Drawing.Point(179, 52);
             this.exprtPubKeyBtn.Name = "exprtPubKeyBtn";
-            this.exprtPubKeyBtn.Size = new System.Drawing.Size(113, 23);
+            this.exprtPubKeyBtn.Size = new System.Drawing.Size(144, 23);
             this.exprtPubKeyBtn.TabIndex = 6;
             this.exprtPubKeyBtn.Text = "Export Public Key";
             this.exprtPubKeyBtn.UseVisualStyleBackColor = true;
@@ -138,7 +118,7 @@
             // 
             this.ImprtPubKey.Location = new System.Drawing.Point(31, 52);
             this.ImprtPubKey.Name = "ImprtPubKey";
-            this.ImprtPubKey.Size = new System.Drawing.Size(113, 23);
+            this.ImprtPubKey.Size = new System.Drawing.Size(142, 23);
             this.ImprtPubKey.TabIndex = 7;
             this.ImprtPubKey.Text = "Import Public Key";
             this.ImprtPubKey.UseVisualStyleBackColor = true;
@@ -201,19 +181,10 @@
             this.slcFileDbtn.UseVisualStyleBackColor = true;
             this.slcFileDbtn.Click += new System.EventHandler(this.slcFileDbtn_Click);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(298, 15);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(196, 13);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Create a pair of asymetric key in memory";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(309, 57);
+            this.label3.Location = new System.Drawing.Point(329, 57);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(157, 13);
             this.label3.TabIndex = 11;
@@ -231,9 +202,9 @@
             // 
             this.exprtPrivKey.Location = new System.Drawing.Point(179, 81);
             this.exprtPrivKey.Name = "exprtPrivKey";
-            this.exprtPrivKey.Size = new System.Drawing.Size(113, 23);
+            this.exprtPrivKey.Size = new System.Drawing.Size(144, 23);
             this.exprtPrivKey.TabIndex = 15;
-            this.exprtPrivKey.Text = "Export Private Key";
+            this.exprtPrivKey.Text = "Export Public+Private Key";
             this.exprtPrivKey.UseVisualStyleBackColor = true;
             this.exprtPrivKey.Click += new System.EventHandler(this.exprtPrivKey_Click);
             // 
@@ -241,16 +212,16 @@
             // 
             this.imprPrivKeyBtn.Location = new System.Drawing.Point(31, 81);
             this.imprPrivKeyBtn.Name = "imprPrivKeyBtn";
-            this.imprPrivKeyBtn.Size = new System.Drawing.Size(113, 23);
+            this.imprPrivKeyBtn.Size = new System.Drawing.Size(142, 23);
             this.imprPrivKeyBtn.TabIndex = 16;
-            this.imprPrivKeyBtn.Text = "Import Private Key";
+            this.imprPrivKeyBtn.Text = "Import Public+Private Key";
             this.imprPrivKeyBtn.UseVisualStyleBackColor = true;
             this.imprPrivKeyBtn.Click += new System.EventHandler(this.imprPrivKeyBtn_Click);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(309, 86);
+            this.label6.Location = new System.Drawing.Point(329, 86);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(162, 13);
             this.label6.TabIndex = 17;
@@ -258,29 +229,64 @@
             // 
             // passtxt
             // 
-            this.passtxt.Location = new System.Drawing.Point(31, 12);
+            this.passtxt.Location = new System.Drawing.Point(125, 12);
             this.passtxt.Name = "passtxt";
             this.passtxt.Size = new System.Drawing.Size(142, 20);
             this.passtxt.TabIndex = 19;
             this.passtxt.TextChanged += new System.EventHandler(this.passtxt_TextChanged);
             // 
+            // EncBtn
+            // 
+            this.EncBtn.Image = global::upbz2RSA.Properties.Resources.icon16;
+            this.EncBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.EncBtn.Location = new System.Drawing.Point(15, 66);
+            this.EncBtn.Name = "EncBtn";
+            this.EncBtn.Size = new System.Drawing.Size(79, 25);
+            this.EncBtn.TabIndex = 2;
+            this.EncBtn.Text = "    Encrypt";
+            this.EncBtn.UseVisualStyleBackColor = true;
+            this.EncBtn.Click += new System.EventHandler(this.EncBtn_Click);
+            // 
+            // dcrtBtn
+            // 
+            this.dcrtBtn.Image = global::upbz2RSA.Properties.Resources.iconOpen16;
+            this.dcrtBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.dcrtBtn.Location = new System.Drawing.Point(15, 66);
+            this.dcrtBtn.Name = "dcrtBtn";
+            this.dcrtBtn.Size = new System.Drawing.Size(79, 25);
+            this.dcrtBtn.TabIndex = 5;
+            this.dcrtBtn.Text = "    Decrypt";
+            this.dcrtBtn.UseVisualStyleBackColor = true;
+            this.dcrtBtn.Click += new System.EventHandler(this.dcrtBtn_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(30, 15);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(89, 13);
+            this.label4.TabIndex = 20;
+            this.label4.Text = "Secret password:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(528, 403);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.passtxt);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.imprPrivKeyBtn);
             this.Controls.Add(this.exprtPrivKey);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.ImprtPubKey);
             this.Controls.Add(this.exprtPubKeyBtn);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.crtAsymKeyBtn);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "TurboPowerCrypt";
@@ -312,7 +318,6 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TextBox stcFileDtxt;
         private System.Windows.Forms.Button slcFileDbtn;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Button exprtPrivKey;
@@ -320,6 +325,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox passtxt;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Label label4;
     }
 }
 

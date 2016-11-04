@@ -423,3 +423,107 @@ Dec: Started on 01.11.2016 ao 20:40:45
 Dec: hash declared = 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00
 Dec: hash computed = 02-7C-58-30-18-F1-24-2B-8B-5B-88-F2-5D-95-A2-04-C6-A8-74-C8-FA-62-69-F3-A6-44-72-89-95-3D-35-75
 Dec: hashes does not match
+Enc: Started on 03.11.2016 ad 01:06:25
+Enc: Original file length = 5419675
+Enc: Encrypted file length = 5419880 before hash rewrite
+Enc: hash = 6D-B9-D0-A5-E8-83-93-AC-5F-90-7C-69-96-1B-95-0A-90-D8-6D-C3-3E-F6-8D-29-15-66-C9-80-46-91-02-05
+Enc: Encrypted file length = 5419880 after hash rewrite
+Enc: Encryption was succesful
+Enc: Finished on 03.11.2016 a	 01:06:25
+File "C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Debug\calm-before-the-storm.mp3"
+     encrypted in 0 days, 0:0:0.390
+==================================================
+Enc: Started on 03.11.2016 ad 01:08:13
+Enc: Original file length = 62935
+Enc: Encrypted file length = 63144 before hash rewrite
+Enc: hash = D3-C9-90-91-63-19-5D-57-B5-63-09-59-D1-31-62-9C-F2-D4-00-59-A5-3F-73-D2-71-17-BD-F0-37-00-19-6F
+Enc: Encrypted file length = 63144 after hash rewrite
+Enc: Encryption was succesful
+Enc: Finished on 03.11.2016 at 01:08:13
+File "C:\Users\JD\Documents\3-Dzvonik-Bankova_sustava.docx"
+     encrypted in 0 days, 0:0:0.15
+==================================================
+Enc: Started on 03.11.2016 ao 19:35:57
+Enc: Started on 03.11.2016 ao 20:10:13
+Enc: Original file length = 5419675
+Enc: Encrypted file length = 5419880 before hash rewrite
+Enc: hash = 6D-C9-81-97-5F-83-9E-B1-DB-F8-6B-C3-68-21-AC-2E-56-91-54-B6-EE-5F-D3-3A-7E-8F-11-3A-7E-EA-C6-9F
+Enc: Encrypted file length = 5419880 after hash rewrite
+Enc: Encryption was succesful
+Enc: Finished on 03.11.2016 at 20:10:14
+File "C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Debug\calm-before-the-storm.mp3"
+     encrypted in 0 days, 0:0:0.390
+==================================================
+Dec: Started on 03.11.2016 ao 20:25:31
+Dec: hash declared = 6D-C9-81-97-5F-83-9E-B1-DB-F8-6B-C3-68-21-AC-2E-56-91-54-B6-EE-5F-D3-3A-7E-8F-11-3A-7E-EA-C6-9F
+Dec: hash computed = 6D-C9-81-97-5F-83-9E-B1-DB-F8-6B-C3-68-21-AC-2E-56-91-54-B6-EE-5F-D3-3A-7E-8F-11-3A-7E-EA-C6-9F
+Dec: hash OK
+Dec: Decrypteed file length = 5419675
+Dec: Decryption was succesful
+Dec: Finished on 03.11.2016 at 20:25:32
+File "C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Debug\Encrypt\calm-before-the-stormC.mp3"
+     decrypted in 0 days, 0:0:0.449
+==================================================
+Enc: Started on 03.11.2016 ao 20:29:03
+Enc: Original file length = 314892288
+Enc: Encrypted file length = 314892520 before hash rewrite
+Enc: hash = BC-59-9D-EF-F0-D3-F1-E7-F2-1D-AE-8A-CB-6B-F4-C7-6D-AA-38-1E-27-80-C5-4F-39-97-73-0F-34-03-70-19
+Enc: Encrypted file length = 314892520 after hash rewrite
+Enc: Encryption was succesful
+Enc: Finished on 03.11.2016 at 20:29:19
+File "C:\Users\JD\Videos\00207.MTS"
+     encrypted in 0 days, 0:0:16.567
+==================================================
+Dec: Started on 03.11.2016 at 20:44:42
+Dec: hash declared = BC-59-9D-EF-F0-D3-F1-E7-F2-1D-AE-8A-CB-6B-F4-C7-6D-AA-38-1E-27-80-C5-4F-39-97-73-0F-34-03-70-19
+Dec: hash computed = BC-59-9D-EF-F0-D3-F1-E7-F2-1D-AE-8A-CB-6B-F4-C7-6D-AA-38-1E-27-80-C5-4F-39-97-73-0F-34-03-70-19
+Dec: hash OK
+Dec: Started on 03.11.2016 at 20:50:10
+Dec: hash declared = 6D-C9-81-97-5F-83-9E-B1-DB-F8-6B-C3-68-21-AC-2E-56-91-54-B6-EE-5F-D3-3A-7E-8F-11-3A-7E-EA-C6-9F
+Dec: hash computed = 6D-C9-81-97-5F-83-9E-B1-DB-F8-6B-C3-68-21-AC-2E-56-91-54-B6-EE-5F-D3-3A-7E-8F-11-3A-7E-EA-C6-9F
+Dec: hash OK
+Dec: Started on 03.11.2016 at 20:51:09
+Dec: hash declared = 6D-C9-81-97-5F-83-9E-B1-DB-F8-6B-C3-68-21-AC-2E-56-91-54-B6-EE-5F-D3-3A-7E-8F-11-3A-7E-EA-C6-9F
+Dec: hash computed = 6D-C9-81-97-5F-83-9E-B1-DB-F8-6B-C3-68-21-AC-2E-56-91-54-B6-EE-5F-D3-3A-7E-8F-11-3A-7E-EA-C6-9F
+Dec: hash OK
+Dec: Started on 03.11.2016 at 20:53:28
+Dec: hash declared = 6D-C9-81-97-5F-83-9E-B1-DB-F8-6B-C3-68-21-AC-2E-56-91-54-B6-EE-5F-D3-3A-7E-8F-11-3A-7E-EA-C6-9F
+Dec: hash computed = 6D-C9-81-97-5F-83-9E-B1-DB-F8-6B-C3-68-21-AC-2E-56-91-54-B6-EE-5F-D3-3A-7E-8F-11-3A-7E-EA-C6-9F
+Dec: hash OK
+Dec: Started on 03.11.2016 at 21:17:03
+Dec: hash declared = 6D-C9-81-97-5F-83-9E-B1-DB-F8-6B-C3-68-21-AC-2E-56-91-54-B6-EE-5F-D3-3A-7E-8F-11-3A-7E-EA-C6-9F
+Dec: hash computed = 6D-C9-81-97-5F-83-9E-B1-DB-F8-6B-C3-68-21-AC-2E-56-91-54-B6-EE-5F-D3-3A-7E-8F-11-3A-7E-EA-C6-9F
+Dec: hash OK
+Dec: Started on 03.11.2016 at 21:21:48
+Dec: hash declared = 6D-C9-81-97-5F-83-9E-B1-DB-F8-6B-C3-68-21-AC-2E-56-91-54-B6-EE-5F-D3-3A-7E-8F-11-3A-7E-EA-C6-9F
+Dec: hash computed = 6D-C9-81-97-5F-83-9E-B1-DB-F8-6B-C3-68-21-AC-2E-56-91-54-B6-EE-5F-D3-3A-7E-8F-11-3A-7E-EA-C6-9F
+Dec: hash OK
+Enc: Started on 03.11.2016 at 21:28:18
+Enc: Original file length = 2300
+Enc: Encrypted file length = 2504 before hash rewrite
+Enc: hash = EC-17-64-6F-4B-40-1E-4B-B6-F6-14-06-E6-9C-6A-AA-5D-57-55-36-E3-01-E5-B6-57-95-9C-A0-16-80-82-B6
+Enc: Encrypted file length = 2504 after hash rewrite
+Enc: Encryption was succesful
+Enc: Finished on 03.11.2016 at 21:28:18
+File "C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Debug\func.net"
+     encrypted in 0 days, 0:0:0.19
+==================================================
+Dec: Started on 03.11.2016 at 21:28:29
+Dec: hash declared = EC-17-64-6F-4B-40-1E-4B-B6-F6-14-06-E6-9C-6A-AA-5D-57-55-36-E3-01-E5-B6-57-95-9C-A0-16-80-82-B6
+Dec: hash computed = EC-17-64-6F-4B-40-1E-4B-B6-F6-14-06-E6-9C-6A-AA-5D-57-55-36-E3-01-E5-B6-57-95-9C-A0-16-80-82-B6
+Dec: hash OK
+Dec: Started on 03.11.2016 at 21:34:55
+Dec: hash declared = 6D-C9-81-97-5F-83-9E-B1-DB-F8-6B-C3-68-21-AC-2E-56-91-54-B6-EE-5F-D3-3A-7E-8F-11-3A-7E-EA-C6-9F
+Dec: hash computed = 6D-C9-81-97-5F-83-9E-B1-DB-F8-6B-C3-68-21-AC-2E-56-91-54-B6-EE-5F-D3-3A-7E-8F-11-3A-7E-EA-C6-9F
+Dec: hash OK
+Enc: Started on 03.11.2016 at 21:36:44
+Enc: Original file length = 1073741824
+Enc: Encrypted file length = 1073742056 before hash rewrite
+Enc: hash = B0-B5-80-46-A4-97-F9-D3-21-BC-D2-B1-B1-89-EA-19-62-BB-38-3D-5D-99-08-3A-BE-A6-D5-B9-73-07-38-20
+Enc: Encrypted file length = 1073742056 after hash rewrite
+Enc: Encryption was succesful
+Enc: Finished on 03.11.2016 at 21:37:37
+File "C:\Users\JD\Documents\Visual Studio 2015\jednoGigo.dat"
+     encrypted in 0 days, 0:0:53.343
+==================================================
+Enc: Started on 03.11.2016 at 23:42:16

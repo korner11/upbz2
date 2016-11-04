@@ -40,7 +40,15 @@ namespace upbz2RSA
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            try
+            {
+                Directory.CreateDirectory(DecrFolder);
+                Directory.CreateDirectory(EncrFolder);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Cannot create directories .\\Encrypt or .\\Decrypt\r\n" + ex.Message);
+            }
         }
 
         private void crtAsymKeyBtn_Click(object sender, EventArgs e)
@@ -130,6 +138,8 @@ namespace upbz2RSA
             // relevant only because of very small files 
             else if (e.ProgressPercentage == 100)
                 progressBar1.Value = progressBar1.Maximum;
+            else if (e.ProgressPercentage == -1)
+                progressBar1.Value = 0;
         }
 
         public void Logger(String lines)
@@ -155,12 +165,21 @@ namespace upbz2RSA
         private void EncryptFile(string inFile, string ext)
         {
             start = DateTime.Now;
-            Logger("Enc: Started on " + start.ToString("dd.MM.yyyy at HH:mm:ss"));
+            Logger("Enc: Started on " + start.ToString("dd.MM.yyyy 'at' HH:mm:ss"));
 
             int startFileName = inFile.LastIndexOf("\\") + 1;
             string shortFileName = inFile.Substring(startFileName, inFile.LastIndexOf(".") - startFileName) + ext;
             // Change the file's extension to ".enc"
             string outFile = EncrFolder + inFile.Substring(startFileName, inFile.LastIndexOf(".") - startFileName) + "C" + ext;
+            // make sure directory exist
+            try { 
+                Directory.CreateDirectory(EncrFolder);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Cannot create directory .\\Encrypt\r\n" + ex.Message);
+                return;
+            }
 
             string labelText = "Encrypting file \"" + shortFileName + "\"";
             backgroundWorker1.ReportProgress(0, labelText);
@@ -203,113 +222,119 @@ namespace upbz2RSA
             // - the encrypted cipher content
             // --- rewrite dummyHash with true hash of encrypted data
 
-            using (FileStream outFs = new FileStream(outFile, FileMode.Create))
-            {
-                outFs.Write(LenK, 0, 4);
-                outFs.Write(LenIV, 0, 4);
-                outFs.Write(keyEncrypted, 0, lKey);
-                outFs.Write(rjndl.IV, 0, lIV);
-
-                // write dummyHash
-                outFs.Write(dummyHash, 0, dummyHash.Length);
-
-                // Now write the cipher text using
-                // a CryptoStream for encrypting.
-                using (CryptoStream outStreamEncrypted = new NotClosingCryptoStream(outFs, transform, CryptoStreamMode.Write))
+            try {
+                using (FileStream outFs = new FileStream(outFile, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite, 8388608))
                 {
+                    outFs.Write(LenK, 0, 4);
+                    outFs.Write(LenIV, 0, 4);
+                    outFs.Write(keyEncrypted, 0, lKey);
+                    outFs.Write(rjndl.IV, 0, lIV);
 
-                    // By encrypting a chunk at
-                    // a time, you can save memory
-                    // and accommodate large files.
-                    int count = 0;
-                    long offset = 0;
-
-                    // blockSizeBytes can be any arbitrary size.
-                    int blockSizeBytes = rjndl.BlockSize / 8;
-                    byte[] data = new byte[blockSizeBytes];
-                    int bytesRead = 0;
-
-                    using (FileStream inFs = new FileStream(inFile, FileMode.Open))
-                    {
-                        double fileLength = inFs.Length;
-                        double blocks = fileLength / blockSizeBytes;
-                        int step = (int)Math.Ceiling(blocks) / 128;
-                        if (step < 1)
-                            step = 1;
-                        int iteration = 1;
-                        do
-                        {
-                            count = inFs.Read(data, 0, blockSizeBytes);
-                            offset += count;
-                            outStreamEncrypted.Write(data, 0, count);
-                            bytesRead += blockSizeBytes;
-
-                            if (iteration++ % step == 0)
-                                backgroundWorker1.ReportProgress(1);    //increment progressBar and NOT change label1
-                        }
-                        while (count > 0);
-
-                        backgroundWorker1.ReportProgress(100);  //set 100% full progress bar due to very small files
-
-                        Logger("Enc: Original file length = " + fileLength);   //dlzka cisteho suboru
-
-                        inFs.Close();
-                    } // FileStream inFs
-                } // CryptoStream outStreamEncrypted
-
-                Logger("Enc: Encrypted file length = " + outFs.Length + " before hash rewrite");
-
-                labelText = "Computing HMAC hash";
-                backgroundWorker1.ReportProgress(0, labelText);
-
-                // generate initialization key for HMACSHA256 provider
-                byte[] hashKey = new byte[lIV + 4];
-                rjndl.IV.CopyTo(hashKey, 0);
-                pad.CopyTo(hashKey, (hashKey.Length - 4));
-
-                // make and reWrite hash
-                using (HMACSHA256 hmac = new HMACSHA256(hashKey))
-                {
-                    // set position in stream
-                    long dataIndex = LenK.Length + LenIV.Length + lKey + lIV + dummyHash.Length;
-                    outFs.Seek(dataIndex, SeekOrigin.Begin);
-
-                    // generate hash
-                    dummyHash = hmac.ComputeHash(outFs);
-
-                    Logger("Enc: hash = " + BitConverter.ToString(dummyHash));
-
-                    // write hash
-                    dataIndex -= dummyHash.Length;
-                    outFs.Seek(dataIndex, SeekOrigin.Begin);
+                    // write dummyHash
                     outFs.Write(dummyHash, 0, dummyHash.Length);
 
-                    //erase hash from memory
-                    for (int i = 0; i < 32; i += 4)
+                    // Now write the cipher text using
+                    // a CryptoStream for encrypting.
+                    using (CryptoStream outStreamEncrypted = new NotClosingCryptoStream(outFs, transform, CryptoStreamMode.Write))
                     {
-                        pad.CopyTo(dummyHash, i);
-                    }
-                }//HMACSHA256
 
-                Logger("Enc: Encrypted file length = " + outFs.Length + " after hash rewrite");
+                        // By encrypting a chunk at
+                        // a time, you can save memory
+                        // and accommodate large files.
+                        int count = 0;
+                        long offset = 0;
 
-                labelText = "Encryption was succesful";
-                backgroundWorker1.ReportProgress(0, labelText);
+                        // blockSizeBytes can be any arbitrary size.
+                        int blockSizeBytes = rjndl.BlockSize / 8;
+                        byte[] data = new byte[blockSizeBytes];
+                        int bytesRead = 0;
 
-                outFs.Close();
-                Logger("Enc: Encryption was succesful");
+                        using (FileStream inFs = new FileStream(inFile, FileMode.Open, FileAccess.Read, FileShare.Read, 8388608))
+                        {
+                            double fileLength = inFs.Length;
+                            double blocks = fileLength / blockSizeBytes;
+                            int step = (int)Math.Ceiling(blocks) / 128;
+                            if (step < 1)
+                                step = 1;
+                            int iteration = 1;
+                            do
+                            {
+                                count = inFs.Read(data, 0, blockSizeBytes);
+                                offset += count;
+                                outStreamEncrypted.Write(data, 0, count);
+                                bytesRead += blockSizeBytes;
 
-                finish = DateTime.Now;
-                TimeSpan duration = finish.Subtract(start);
-                Logger("Enc: Finished on " + finish.ToString("dd.MM.yyyy at HH:mm:ss"));
-                Logger("File \"" + inFile + "\"\r\n     encrypted in " +
-                        duration.Days + " days, " +
-                        duration.Hours + ":" +
-                        duration.Minutes + ":" + duration.Seconds +
-                        "." + duration.Milliseconds +
-                        "\r\n=================================================="
-                );
-            }//outFs
+                                if (iteration++ % step == 0)
+                                    backgroundWorker1.ReportProgress(1);    //increment progressBar and NOT change label1
+                            }
+                            while (count > 0);
+
+                            backgroundWorker1.ReportProgress(100);  //set 100% full progress bar due to very small files
+
+                            Logger("Enc: Original file length = " + fileLength);   //dlzka cisteho suboru
+
+                            inFs.Close();
+                        } // FileStream inFs
+                    } // CryptoStream outStreamEncrypted
+
+                    labelText = "Computing HMAC hash";
+                    backgroundWorker1.ReportProgress(0, labelText);
+
+                    // generate initialization key for HMACSHA256 provider
+                    byte[] hashKey = new byte[lIV + 4];
+                    rjndl.IV.CopyTo(hashKey, 0);
+                    pad.CopyTo(hashKey, (hashKey.Length - 4));
+
+                    // make and reWrite hash
+                    using (HMACSHA256 hmac = new HMACSHA256(hashKey))
+                    {
+                        // set position in stream
+                        long dataIndex = LenK.Length + LenIV.Length + lKey + lIV + dummyHash.Length;
+                        outFs.Seek(dataIndex, SeekOrigin.Begin);
+
+                        // generate hash
+                        dummyHash = hmac.ComputeHash(outFs);
+
+                        Logger("Enc: hash = " + BitConverter.ToString(dummyHash));
+
+                        // write hash
+                        dataIndex -= dummyHash.Length;
+                        outFs.Seek(dataIndex, SeekOrigin.Begin);
+                        outFs.Write(dummyHash, 0, dummyHash.Length);
+
+                        //erase hash from memory
+                        for (int i = 0; i < 32; i += 4)
+                        {
+                            pad.CopyTo(dummyHash, i);
+                        }
+                    }//HMACSHA256
+
+                    Logger("Enc: Encrypted file length = " + outFs.Length);
+
+                    labelText = "Encryption was succesful";
+                    backgroundWorker1.ReportProgress(0, labelText);
+
+                    outFs.Close();
+                    Logger("Enc: Encryption was succesful");
+
+                    finish = DateTime.Now;
+                    TimeSpan duration = finish.Subtract(start);
+                    Logger("Enc: Finished on " + finish.ToString("dd.MM.yyyy 'at' HH:mm:ss"));
+                    Logger("File \"" + inFile + "\"\r\n     encrypted in " +
+                            duration.Days + " days, " +
+                            duration.Hours + ":" +
+                            duration.Minutes + ":" + duration.Seconds +
+                            "." + duration.Milliseconds +
+                            "\r\n=================================================="
+                    );
+                }//outFs
+            }
+            catch(Exception exc)
+            {
+                backgroundWorker1.ReportProgress(-1);
+                backgroundWorker1.ReportProgress(0, "Error occured in encrypt process");
+                MessageBox.Show("Error occured in encrypt process\r\n" + exc.GetType() + "\r\n" + exc.Message);
+            }
         }
 
         private void slcFileDbtn_Click(object sender, EventArgs e)
@@ -367,7 +392,7 @@ namespace upbz2RSA
         private void DecryptFile(string inFile, string ext)
         {
             start = DateTime.Now;
-            Logger("Dec: Started on " + start.ToString("dd.MM.yyyy at HH:mm:ss"));
+            Logger("Dec: Started on " + start.ToString("dd.MM.yyyy 'at' HH:mm:ss"));
 
             int startFileName = inFile.LastIndexOf("\\") + 1;
             string shortFileName = inFile.Substring(startFileName, inFile.LastIndexOf(".") - startFileName) + ext;
@@ -390,165 +415,194 @@ namespace upbz2RSA
 
             // Consruct the file name for the decrypted file.
             string outFile = DecrFolder + shortFileName.Substring(0, shortFileName.LastIndexOf(".")-1) + ext;
+            // make sure directory exist
+            try { 
+                Directory.CreateDirectory(DecrFolder);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Cannot create directory .\\Decrypt\r\n" + ex.Message);
+                return;
+            }
 
             // Use FileStream objects to read the encrypted
             // file (inFs) and save the decrypted file (outFs).
-            using (FileStream inFs = new FileStream(inFile/*EncrFolder + shortFileName*/, FileMode.Open))
-            {
-                inFs.Seek(0, SeekOrigin.Begin);
-                inFs.Seek(0, SeekOrigin.Begin);
-                inFs.Read(LenK, 0, 3);
-                inFs.Seek(4, SeekOrigin.Begin);
-                inFs.Read(LenIV, 0, 3);
-
-                // Convert the lengths to integer values.
-                int lenK = BitConverter.ToInt32(LenK, 0);
-                int lenIV = BitConverter.ToInt32(LenIV, 0);
-                int lenHash = 32;
-
-                // Create the byte arrays for
-                // the encrypted Rijndael key,
-                // the IV, and the hash.
-                byte[] KeyEncrypted = new byte[lenK];
-                byte[] IV = new byte[lenIV];
-                byte[] hashRead = new byte[lenHash];
-
-                // Extract the key, IV and hash
-                // starting from index 8
-                // after the length values.
-                inFs.Seek(8, SeekOrigin.Begin);
-                inFs.Read(KeyEncrypted, 0, lenK);
-                inFs.Seek(8 + lenK, SeekOrigin.Begin);
-                inFs.Read(IV, 0, lenIV);
-                inFs.Seek(8 + lenK + lenIV, SeekOrigin.Begin);
-                inFs.Read(hashRead, 0, lenHash);
-
-                Logger("Dec: hash declared = " + BitConverter.ToString(hashRead));
-
-                // check hash
-                // construct key for HMACSHA provider
-                byte[] hashKey = new byte[lenIV + 4];
-                IV.CopyTo(hashKey, 0);
-                byte[] pad = BitConverter.GetBytes(9);
-                pad.CopyTo(hashKey, (hashKey.Length - 4));
-
-                // make and compare hash
-                using (HMACSHA256 hmac = new HMACSHA256(hashKey))
+            try {
+                using (FileStream inFs = new FileStream(inFile, FileMode.Open, FileAccess.Read, FileShare.Read, 8388608))
                 {
-                    // set position in stream
-                    long dataIndex = LenK.Length + LenIV.Length + lenK + lenIV + lenHash;
-                    inFs.Seek(dataIndex, SeekOrigin.Begin);
+                    inFs.Seek(0, SeekOrigin.Begin);
+                    inFs.Seek(0, SeekOrigin.Begin);
+                    inFs.Read(LenK, 0, 3);
+                    inFs.Seek(4, SeekOrigin.Begin);
+                    inFs.Read(LenIV, 0, 3);
 
-                    labelText = "Checking file integrity, please wait...";
-                    backgroundWorker1.ReportProgress(0, labelText);
+                    // Convert the lengths to integer values.
+                    int lenK = BitConverter.ToInt32(LenK, 0);
+                    int lenIV = BitConverter.ToInt32(LenIV, 0);
+                    int lenHash = 32;
 
-                    // generate hash
-                    byte[] computedHash = hmac.ComputeHash(inFs);
+                    // Create the byte arrays for
+                    // the encrypted Rijndael key,
+                    // the IV, and the hash.
+                    byte[] KeyEncrypted = new byte[lenK];
+                    byte[] IV = new byte[lenIV];
+                    byte[] hashRead = new byte[lenHash];
 
-                    Logger("Dec: hash computed = " + BitConverter.ToString(computedHash));
+                    // Extract the key, IV and hash
+                    // starting from index 8
+                    // after the length values.
+                    inFs.Seek(8, SeekOrigin.Begin);
+                    inFs.Read(KeyEncrypted, 0, lenK);
+                    inFs.Seek(8 + lenK, SeekOrigin.Begin);
+                    inFs.Read(IV, 0, lenIV);
+                    inFs.Seek(8 + lenK + lenIV, SeekOrigin.Begin);
+                    inFs.Read(hashRead, 0, lenHash);
 
-                    try
+                    Logger("Dec: hash declared = " + BitConverter.ToString(hashRead));
+
+                    // check hash
+                    // construct key for HMACSHA provider
+                    byte[] hashKey = new byte[lenIV + 4];
+                    IV.CopyTo(hashKey, 0);
+                    byte[] pad = BitConverter.GetBytes(9);
+                    pad.CopyTo(hashKey, (hashKey.Length - 4));
+
+                    // make and compare hash
+                    using (HMACSHA256 hmac = new HMACSHA256(hashKey))
                     {
-                        bool isHashOK = Enumerable.SequenceEqual(hashRead, computedHash);
-                        if (!isHashOK)
+                        // set position in stream
+                        long dataIndex = LenK.Length + LenIV.Length + lenK + lenIV + lenHash;
+                        inFs.Seek(dataIndex, SeekOrigin.Begin);
+
+                        labelText = "Checking file integrity, please wait...";
+                        backgroundWorker1.ReportProgress(0, labelText);
+
+                        // generate hash
+                        byte[] computedHash = hmac.ComputeHash(inFs);
+
+                        Logger("Dec: hash computed = " + BitConverter.ToString(computedHash));
+
+                        try
                         {
-                            labelText = "Cannot decrypt file. Integrity check ended up with false";
-                            backgroundWorker1.ReportProgress(0, labelText);
-                            Logger("Dec: hashes does not match");
-                            throw new Exception("Cannot guarantee file integrity.\r\n" + 
-                                                "Integrity check ended up with false"
-                            );
+                            bool isHashOK = Enumerable.SequenceEqual(hashRead, computedHash);
+                            if (!isHashOK)
+                            {
+                                backgroundWorker1.ReportProgress(-1);
+                                Logger("Dec: hashes does not match");
+                                labelText = "Cannot decrypt file. Integrity check ended up with false";
+                                backgroundWorker1.ReportProgress(0, labelText);
+                                throw new Exception("Cannot guarantee file integrity.\r\n" +
+                                                    "Integrity check ended up with false"
+                                );
+                            }
                         }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show(e.Message);
+                            return;
+                        }
+
+                        Logger("Dec: hash OK");
+
+                        labelText = "Decrypting file \"" + shortFileName + "\"";
+                        backgroundWorker1.ReportProgress(0, labelText);
                     }
-                    catch (Exception e)
+
+                    // Use RSACryptoServiceProvider
+                    // to decrypt the Rijndael key.
+                    byte[] KeyDecrypted;
+                    try {
+                        KeyDecrypted = rsa.Decrypt(KeyEncrypted, false);
+                    }
+                    catch(CryptographicException ce)
                     {
-                        MessageBox.Show(e.Message);
+                        backgroundWorker1.ReportProgress(0, "Cannot decrypt file \"" + shortFileName + "\" with given key.");
+                        inFs.Dispose();
+                        backgroundWorker1.ReportProgress(-1);
+                        MessageBox.Show("Data integrity is OK, but cannot decrypt!\r\nYou have probably wrong key!\r\nOfficial cause: " + ce.Message);
                         return;
                     }
 
-                    Logger("Dec: hash OK");
+                    // Decrypt the key.
+                    ICryptoTransform transform = rjndl.CreateDecryptor(KeyDecrypted, IV);
 
-                    labelText = "Decrypting file \"" + shortFileName + "\"";
-                    backgroundWorker1.ReportProgress(0, labelText);
-                }
+                    // Determine the start postition of
+                    // the ciphter text (startC)
+                    // and its length(lenC).
+                    int startC = LenK.Length + LenIV.Length + lenK + lenIV + lenHash;
+                    int lenC = (int)inFs.Length - startC;
 
-                Directory.CreateDirectory(DecrFolder);
-                // Use RSACryptoServiceProvider
-                // to decrypt the Rijndael key.
-                byte[] KeyDecrypted = rsa.Decrypt(KeyEncrypted, false);
-
-                // Decrypt the key.
-                ICryptoTransform transform = rjndl.CreateDecryptor(KeyDecrypted, IV);
-
-                // Determine the start postition of
-                // the ciphter text (startC)
-                // and its length(lenC).
-                int startC = LenK.Length + LenIV.Length + lenK + lenIV + lenHash;
-                int lenC = (int)inFs.Length - startC;
-
-                // Decrypt the cipher text from
-                // from the FileSteam of the encrypted
-                // file (inFs) into the FileStream
-                // for the decrypted file (outFs).
-                using (FileStream outFs = new FileStream(outFile, FileMode.Create))
-                {
-                    int count = 0;
-
-                    // blockSizeBytes can be any arbitrary size.
-                    int blockSizeBytes = rjndl.BlockSize / 8;
-                    byte[] data = new byte[blockSizeBytes];
-
-                    // By decrypting a chunk a time,
-                    // you can save memory and
-                    // accommodate large files.
-
-                    // Start at the beginning
-                    // of the cipher text.
-                    inFs.Seek(startC, SeekOrigin.Begin);
-                    using (CryptoStream outStreamDecrypted = new NotClosingCryptoStream(outFs, transform, CryptoStreamMode.Write))
+                    // Decrypt the cipher text from
+                    // from the FileSteam of the encrypted
+                    // file (inFs) into the FileStream
+                    // for the decrypted file (outFs).
+                    using (FileStream outFs = new FileStream(outFile, FileMode.Create))
                     {
-                        double fileLength = lenC;//inFs.Length;
-                        double blocks = fileLength / blockSizeBytes;
-                        int step = (int)Math.Ceiling(blocks) / 128;
-                        if (step < 1)
-                            step = 1;
-                        int iteration = 1;
+                        int count = 0;
 
-                        do
+                        // blockSizeBytes can be any arbitrary size.
+                        int blockSizeBytes = rjndl.BlockSize / 8;
+                        byte[] data = new byte[blockSizeBytes];
+
+                        // By decrypting a chunk a time,
+                        // you can save memory and
+                        // accommodate large files.
+
+                        // Start at the beginning
+                        // of the cipher text.
+                        inFs.Seek(startC, SeekOrigin.Begin);
+                        using (CryptoStream outStreamDecrypted = new NotClosingCryptoStream(outFs, transform, CryptoStreamMode.Write))
                         {
-                            count = inFs.Read(data, 0, blockSizeBytes);
-                            outStreamDecrypted.Write(data, 0, count);
+                            double fileLength = lenC;//inFs.Length;
+                            double blocks = fileLength / blockSizeBytes;
+                            int step = (int)Math.Ceiling(blocks) / 128;
+                            if (step < 1)
+                                step = 1;
+                            int iteration = 1;
 
-                            if (iteration++ % step == 0)
-                                backgroundWorker1.ReportProgress(1);    //increment progressBar and NOT change label1
-                        }
-                        while (count > 0);
+                            do
+                            {
+                                count = inFs.Read(data, 0, blockSizeBytes);
+                                outStreamDecrypted.Write(data, 0, count);
 
-                        backgroundWorker1.ReportProgress(100);  //set 100% full progress bar due to very small files
-                    }//CryptoStream
+                                if (iteration++ % step == 0)
+                                    backgroundWorker1.ReportProgress(1);    //increment progressBar and NOT change label1
+                            }
+                            while (count > 0);
 
-                    Logger("Dec: Decrypteed file length = " + outFs.Length);
+                            backgroundWorker1.ReportProgress(100);  //set 100% full progress bar due to very small files
+                        }//CryptoStream
 
-                    outFs.Close();
-                }//outFs
-                inFs.Close();
+                        Logger("Dec: Decrypted file length = " + outFs.Length);
 
-                labelText = "Decryption of \"" + shortFileName + "\" was succesful";
-                backgroundWorker1.ReportProgress(0, labelText);
+                        outFs.Close();
+                    }//outFs
+                    inFs.Close();
 
-                Logger("Dec: Decryption was succesful");
-                finish = DateTime.Now;
+                    labelText = "Decryption of \"" + shortFileName + "\" was succesful";
+                    backgroundWorker1.ReportProgress(0, labelText);
 
-                TimeSpan duration = finish.Subtract(start);
-                Logger("Dec: Finished on " + finish.ToString("dd.MM.yyyy at HH:mm:ss"));
-                Logger("File \"" + inFile + "\"\r\n     decrypted in " +
-                        duration.Days + " days, " +
-                        duration.Hours + ":" +
-                        duration.Minutes + ":" + duration.Seconds +
-                        "." + duration.Milliseconds +
-                        "\r\n=================================================="
-                );
+                    Logger("Dec: Decryption was succesful");
+                    finish = DateTime.Now;
+
+                    TimeSpan duration = finish.Subtract(start);
+                    Logger("Dec: Finished on " + finish.ToString("dd.MM.yyyy 'at' HH:mm:ss"));
+                    Logger("File \"" + inFile + "\"\r\n     decrypted in " +
+                            duration.Days + " days, " +
+                            duration.Hours + ":" +
+                            duration.Minutes + ":" + duration.Seconds +
+                            "." + duration.Milliseconds +
+                            "\r\n=================================================="
+                    );
+                }
             }
+            catch(Exception exc)
+            {
+                backgroundWorker1.ReportProgress(-1);
+                backgroundWorker1.ReportProgress(0, "Error occured in decrypt process");
+                MessageBox.Show("Error occured in decrypt process"  + exc.GetType() + "\r\n" + exc.Message);
+            }
+
         }
 
         private void exprtPubKeyBtn_Click(object sender, EventArgs e)

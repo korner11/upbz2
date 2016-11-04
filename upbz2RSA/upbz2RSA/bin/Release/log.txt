@@ -1,0 +1,111 @@
+Enc: Started on 03.11.2016 ad 00:09:09
+Enc: Started on 03.11.2016 ad 00:10:36
+Enc: Original file length = 1073741824
+Enc: Encrypted file length = 1073742056 before hash rewrite
+Enc: hash = 43-1C-CC-8D-69-37-19-45-0D-38-CC-A3-3E-56-DB-06-D0-63-39-08-43-45-15-88-61-70-5A-2F-83-E7-41-24
+Enc: Encrypted file length = 1073742056 after hash rewrite
+Enc: Encryption was succesful
+Enc: Finished on 03.11.2016 ad 00:12:32
+File "C:\Users\JD\Documents\Visual Studio 2015\jednoGigo.dat"
+     encrypted in 0 days, 0:1:55.927
+==================================================
+Dec: Started on 03.11.2016 ad 00:13:20
+Dec: hash declared = 43-1C-CC-8D-69-37-19-45-0D-38-CC-A3-3E-56-DB-06-D0-63-39-08-43-45-15-88-61-70-5A-2F-83-E7-41-24
+Dec: hash computed = 43-1C-CC-8D-69-37-19-45-0D-38-CC-A3-3E-56-DB-06-D0-63-39-08-43-45-15-88-61-70-5A-2F-83-E7-41-24
+Dec: hash OK
+Dec: Decrypteed file length = 1073741824
+Dec: Decryption was succesful
+Dec: Finished on 03.11.2016 ad 00:14:57
+File "C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Release\Encrypt\jednoGigoC.dat"
+     decrypted in 0 days, 0:1:36.692
+==================================================
+Enc: Started on 03.11.2016 ad 00:33:38
+Enc: Original file length = 1073741824
+Enc: Encrypted file length = 1073742056 before hash rewrite
+Enc: hash = 67-70-7E-91-5A-CE-39-76-63-0C-E6-9D-26-1E-BF-75-A2-1D-9E-7A-04-3E-8F-50-01-45-12-EC-29-DD-52-1B
+Enc: Encrypted file length = 1073742056 after hash rewrite
+Enc: Encryption was succesful
+Enc: Finished on 03.11.2016 ad 00:34:25
+File "C:\Users\JD\Documents\Visual Studio 2015\jednoGigo.dat"
+     encrypted in 0 days, 0:0:47.361
+==================================================
+Enc: Started on 03.11.2016 ad 00:45:27
+Enc: Original file length = 1073741824
+Enc: Encrypted file length = 1073742056 before hash rewrite
+Enc: hash = D5-A6-C9-FB-B4-CE-4B-7E-58-17-72-26-7D-3F-2E-5C-81-92-15-A5-A3-5C-DB-CD-07-AD-5B-F3-97-3C-14-C0
+Enc: Encrypted file length = 1073742056 after hash rewrite
+Enc: Encryption was succesful
+Enc: Finished on 03.11.2016 ad 00:46:13
+File "C:\Users\JD\Documents\Visual Studio 2015\jednoGigo.dat"
+     encrypted in 0 days, 0:0:46.892
+==================================================
+Dec: Started on 03.11.2016 ad 00:47:26
+Dec: hash declared = D5-A6-C9-FB-B4-CE-4B-7E-58-17-72-26-7D-3F-2E-5C-81-92-15-A5-A3-5C-DB-CD-07-AD-5B-F3-97-3C-14-C0
+Dec: hash computed = D5-A6-C9-FB-B4-CE-4B-7E-58-17-72-26-7D-3F-2E-5C-81-92-15-A5-A3-5C-DB-CD-07-AD-5B-F3-97-3C-14-C0
+Dec: hash OK
+Dec: Decrypteed file length = 1073741824
+Dec: Decryption was succesful
+Dec: Finished on 03.11.2016 ad 00:48:31
+File "C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Release\Encrypt\jednoGigoC.dat"
+     decrypted in 0 days, 0:1:5.534
+==================================================
+Enc: Started on 03.11.2016 ad 00:53:27
+Enc: Original file length = 1073741824
+Enc: Encrypted file length = 1073742056 before hash rewrite
+Enc: hash = 21-D2-A1-54-CC-C6-1F-3C-84-8A-48-16-83-D7-0D-3A-E3-06-AC-69-CA-1A-00-FB-CF-9C-94-EB-0A-55-FC-15
+Enc: Encrypted file length = 1073742056 after hash rewrite
+Enc: Encryption was succesful
+Enc: Finished on 03.11.2016 ad 00:54:14
+File "C:\Users\JD\Documents\Visual Studio 2015\jednoGigo.dat"
+     encrypted in 0 days, 0:0:47.299
+==================================================
+Dec: Started on 03.11.2016 ad 00:57:19
+Dec: hash declared = 21-D2-A1-54-CC-C6-1F-3C-84-8A-48-16-83-D7-0D-3A-E3-06-AC-69-CA-1A-00-FB-CF-9C-94-EB-0A-55-FC-15
+Dec: hash computed = 21-D2-A1-54-CC-C6-1F-3C-84-8A-48-16-83-D7-0D-3A-E3-06-AC-69-CA-1A-00-FB-CF-9C-94-EB-0A-55-FC-15
+Dec: hash OK
+Dec: Decrypteed file length = 1073741824
+Dec: Decryption was succesful
+Dec: Finished on 03.11.2016 ad 00:58:19
+File "C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Release\Encrypt\jednoGigoC.dat"
+     decrypted in 0 days, 0:0:59.768
+==================================================
+Enc: Started on 03.11.2016 ad 07:03:40
+Enc: Original file length = 1073741824
+Enc: Encrypted file length = 1073742056 before hash rewrite
+Enc: hash = F7-D7-88-96-DC-4E-26-A6-94-18-B2-00-11-04-6B-19-AC-D1-22-3F-70-61-9A-B9-35-04-0D-43-18-1B-4D-83
+Enc: Encrypted file length = 1073742056 after hash rewrite
+Enc: Encryption was succesful
+Enc: Finished on 03.11.2016 at 07:04:28
+File "C:\Users\JD\Documents\Visual Studio 2015\jednoGigo.dat"
+     encrypted in 0 days, 0:0:47.408
+==================================================
+Dec: Started on 03.11.2016 ad 07:04:53
+Dec: hash declared = F7-D7-88-96-DC-4E-26-A6-94-18-B2-00-11-04-6B-19-AC-D1-22-3F-70-61-9A-B9-35-04-0D-43-18-1B-4D-83
+Dec: hash computed = F7-D7-88-96-DC-4E-26-A6-94-18-B2-00-11-04-6B-19-AC-D1-22-3F-70-61-9A-B9-35-04-0D-43-18-1B-4D-83
+Dec: hash OK
+Dec: Decrypteed file length = 1073741824
+Dec: Decryption was succesful
+Dec: Finished on 03.11.2016 at 07:05:52
+File "C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Release\Encrypt\jednoGigoC.dat"
+     decrypted in 0 days, 0:0:59.65
+==================================================
+Enc: Started on 03.11.2016 ao 17:44:27
+Enc: Original file length = 1073741824
+Enc: Encrypted file length = 1073742056 before hash rewrite
+Enc: hash = F3-10-72-10-57-3D-FF-A5-57-96-80-23-93-C0-A7-B7-5A-93-57-03-91-75-F8-D8-EC-F7-E3-BE-2F-FD-B9-3E
+Enc: Encrypted file length = 1073742056 after hash rewrite
+Enc: Encryption was succesful
+Enc: Finished on 03.11.2016 at 17:45:14
+File "C:\Users\JD\Documents\Visual Studio 2015\jednoGigo.dat"
+     encrypted in 0 days, 0:0:47.564
+==================================================
+Dec: Started on 03.11.2016 ao 17:46:48
+Dec: hash declared = F3-10-72-10-57-3D-FF-A5-57-96-80-23-93-C0-A7-B7-5A-93-57-03-91-75-F8-D8-EC-F7-E3-BE-2F-FD-B9-3E
+Dec: hash computed = F3-10-72-10-57-3D-FF-A5-57-96-80-23-93-C0-A7-B7-5A-93-57-03-91-75-F8-D8-EC-F7-E3-BE-2F-FD-B9-3E
+Dec: hash OK
+Dec: Decrypteed file length = 1073741824
+Dec: Decryption was succesful
+Dec: Finished on 03.11.2016 at 17:47:47
+File "C:\Users\JD\Documents\Visual Studio 2015\Projects\upbz2\upbz2RSA\upbz2RSA\bin\Release\Encrypt\jednoGigoC.dat"
+     decrypted in 0 days, 0:0:58.799
+==================================================
